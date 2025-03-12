@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Trending Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <h1>YouTube Trending Analytics</h1>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="trending">Trending Analysis</button>
+            <button class="tab-btn" data-tab="channel">Channel Analysis</button>
+        </div>
+
+        <div id="trending-tab" class="tab-content active">
+            <div class="analysis-card">
+                <h2>Analyze Trending Videos</h2>
+                <div class="country-selector">
+                    <label for="country-select">Select Country:</label>
+                    <select id="country-select">
+                        {% for country_name, country_code in countries.items() %}
+                        <option value="{{ country_code }}">{{ country_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="analyze-btn" class="action-btn">Analyze</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="channel-tab" class="tab-content">
+            <div class="analysis-card">
+                <h2>Analyze YouTube Channel</h2>
+                <div class="channel-input">
+                    <label for="channel-url">Enter YouTube Channel URL:</label>
+                    <input type="text" id="channel-url" placeholder="https://www.youtube.com/@channelname">
+                    <button id="analyze-channel-btn" class="action-btn">Analyze Channel</button>
+                </div>
+                <div class="url-examples">
+                    <p>Examples: <code>https://www.youtube.com/@MrBeast</code> or <code>https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA</code></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Analyzing YouTube data...</p>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <div id="results" class="results-container">
+            <div class="insights-container">
+                <h2>Insights for <span id="country-name"></span></h2>
+                <div id="insights-list" class="insights-list"></div>
+            </div>
+
+            <div class="dashboard">
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Category Distribution</h3>
+                        <img id="category-dist" class="chart-image" alt="Category Distribution">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Average Views by Category</h3>
+                        <img id="views-by-category" class="chart-image" alt="Views by Category">
+                    </div>
+                </div>
+                
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Best Time to Upload (Day & Hour)</h3>
+                        <img id="publish-time-heatmap" class="chart-image" alt="Publish Time Heatmap">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Engagement by Video Duration</h3>
+                        <img id="duration-analysis" class="chart-image" alt="Duration Analysis">
+                    </div>
+                </div>
+                
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Impact of Tag Count on Views</h3>
+                        <img id="tags-analysis" class="chart-image" alt="Tags Analysis">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Top Trending Channels</h3>
+                        <img id="top-channels" class="chart-image" alt="Top Channels">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add a new section for channel results -->
+        <div id="channel-results" class="results-container">
+            <div class="channel-header">
+                <div id="channel-info" class="channel-info">
+                    <h2>Channel Analysis: <span id="channel-name"></span></h2>
+                </div>
+            </div>
+
+            <div class="insights-container">
+                <h2>Channel Insights</h2>
+                <div id="channel-insights-list" class="insights-list"></div>
+            </div>
+
+            <div class="dashboard">
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Video Performance Over Time</h3>
+                        <img id="video-performance" class="chart-image" alt="Video Performance">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Content Category Distribution</h3>
+                        <img id="channel-categories" class="chart-image" alt="Channel Categories">
+                    </div>
+                </div>
+                
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Upload Time Analysis</h3>
+                        <img id="channel-upload-times" class="chart-image" alt="Upload Times">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Video Duration vs. Engagement</h3>
+                        <img id="channel-duration" class="chart-image" alt="Duration Analysis">
+                    </div>
+                </div>
+                
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <h3>Engagement Metrics</h3>
+                        <img id="channel-engagement" class="chart-image" alt="Engagement Metrics">
+                    </div>
+                    <div class="chart-container improvement-tips-container">
+                        <h3>Improvement Opportunities</h3>
+                        <div id="improvement-tips" class="tips-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>YouTube Trending Analytics Dashboard | Data refreshed daily</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
+
