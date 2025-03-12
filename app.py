@@ -45,7 +45,7 @@ COUNTRIES = {
 
 def get_api_key():
     # In production, use environment variables
-    return os.environ.get('YOUTUBE_API_KEY', 'AIzaSyCh0psoLfmuTeHhlOFDUSWgAL5cv_3vWXQ')
+    return os.environ.get('YOUTUBE_API_KEY', 'your_api_key')
 
 def get_trending_videos(api_key, region_code='US', max_results=50):
     # Check cache first
